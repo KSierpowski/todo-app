@@ -1,8 +1,22 @@
-import { useState } from "react";
+import {useRef, useState } from "react";
 import {tasks as tasksData} from '../data/tasks';
 
 export function TasksList(){
     const [tasks, setTasks] = useState(tasksData);
+
+    const titleRef = useRef(null);
+
+    const handleAddTask = () => {
+        const newTasks = [...tasks];
+        newTasks.push({
+            title: titleRef.current.value,
+            description: "",
+            completed: false
+        });
+        setTasks(newTasks);
+    };
+
+
 
     const handleToggleTask = index => {
 
@@ -20,21 +34,13 @@ export function TasksList(){
       setTasks(newTasks);
     };
 
-    const handleAddddTask = (title) => {
-        const newTasks = [...tasks];
-        newTasks.push({
-            title: title,
-            description: "",
-            completed: false
-        });
-        setTasks(newTasks);
-    };
 
 
 
     return(
     <>
-        <button onClick={() => handleAddddTask("Add new task")}>+</button>
+    <input type='text' id = 'title' ref = {titleRef} />
+        <button onClick={handleAddTask}>Add new task</button>
         {tasks.lenght === 0? <div>Empty list</div> : 
         
         <ul>
